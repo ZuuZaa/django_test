@@ -7,9 +7,12 @@
   {% for news in news_list %}
   <div class="col-md-3 col-sm-12">
     <div class="card" style="width: 300px;">
+      {% if news.img %}
+      <img src="{{news.img.url}}" style="width: 300px;">
+      {% endif %}
       <div class="card-body">
         <h5 class="card-title">{{news.title}}</h5>
-        <p class="card-text">{{news.content}}</p>
+        <p class="card-text">{{news.content|truncatewords:'6'}}</p>
         <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
     </div>

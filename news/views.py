@@ -6,6 +6,12 @@ def home(request):
 
     news_list = News.objects.all()
 
+    for i in news_list:
+        if i.img:
+            print(i.img.url) 
+        else:
+            print('------ else') 
+
     context = {
         'news_list' : news_list
     }
