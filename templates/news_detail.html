@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card" >
+    {% if news.img %}
+    <img src="{{news.img.url}}" style="width: 300px;">
+    {% endif %}
+    <h5>{{news.title}}</h5>
+    <!-- https://docs.djangoproject.com/en/3.0/ref/templates/builtins/ -->
+    <span>{{news.published | date:'j F, Y'}}</span>
+    <article>{{news.content}}</article>
+    <a href="{% url 'news_update' news.id %}" class="btn btn-info">update</a>
+</div>
+
+{% endblock %}
