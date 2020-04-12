@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import News
+from .models import NewsModel
+from .forms import NewsForm
 
 # Create your views here.
 def home(request):
 
-    news_list = News.objects.all()
+    news_list = NewsModel.objects.all()
     context = {
         'news_list' : news_list
     }
@@ -14,7 +15,7 @@ def home(request):
 
 def news_detail(request, slug):
 
-    news = News.objects.filter(slug=slug).last()
+    news = NewsModel.objects.filter(slug=slug).last()
     if news:
         context = {
             'news' : news
@@ -26,10 +27,12 @@ def news_detail(request, slug):
 
 def news_update(request, id):
 
-    news = News.objects.filter(id=id).last()
+    news = NewsModel.objects.filter(id=id).last()
+    form = NewsForm(instance=news)
     if news:
         context = {
-            'news' : news
+            'news' : news,
+            'form' : form
         }
         print('--------------update')
         return render(request, 'news_update.html', context)
