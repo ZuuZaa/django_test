@@ -5,5 +5,6 @@ from .models import NewsModel
 @admin.register(NewsModel)
 class News_Admin(admin.ModelAdmin):
 
-    list_display = ['title','content']
-    readonly_fields = ['slug','published']
+    list_display = ['title','content','published','get_image']
+    readonly_fields = ['slug','published','get_image']
+

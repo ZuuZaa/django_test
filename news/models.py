@@ -23,6 +23,10 @@ class NewsModel(models.Model):
         default='az',
     )
 
+    def get_image(self):
+        if self.img:
+            return f"<img src='{self.img.url}' style='width: 80px;'>"
+
     def save(self, *args, **kwargs):
         string_slug = self.title + '-' + str(self.pk)
         self.slug = slugify(string_slug)

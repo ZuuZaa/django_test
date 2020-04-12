@@ -5,6 +5,7 @@ home
 
 <div class="row my-5">
   {% for news in news_list %}
+  {% if news.language == 'az' %}
   <div class="col-md-3 col-sm-12">
     <div class="card" style="width: 300px;">
       {% if news.img %}
@@ -17,8 +18,26 @@ home
       </div>
     </div>
   </div>
+  {% endif %}
   {% endfor %}
 </div>
+
+{% for department in department_list %}
+{% if person.language == 'az' %}
+{{department.name}} <br>
+{{department.address}}
+{% endif %}
+{% endfor %}
+
+{% for person in person_list %}
+{% if person.language == 'rus' %}
+{{person.full_name}} <br>
+{{person.role}} <br>
+{{person.email}} <br>
+{{person.phone_number}}
+{% endif %}
+{% endfor %}
+
 
 
 

@@ -1,14 +1,21 @@
 from django.shortcuts import render, redirect
 from .models import NewsModel
 from .forms import NewsForm
+from structure.models import Department, Person
 
 # Create your views here.
 def home(request):
 
     news_list = NewsModel.objects.all()
+    depaertment_list = Department.objects.all()
+    person_list = Person.objects.all()
     context = {
-        'news_list' : news_list
+        'news_list' : news_list,
+        'department_list' : depaertment_list,
+        'person_list' : person_list,
     }
+    print(depaertment_list)
+    print(person_list)
 
     return render(request, 'index.html', context)
 
