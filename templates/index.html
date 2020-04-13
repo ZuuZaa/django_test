@@ -3,27 +3,53 @@
 {% block content %}
 home
 
-<div class="row my-5">
-  {% for news in news_list %}
-  {% if news.language == 'az' %}
-  <div class="col-md-3 col-sm-12">
-    <div class="card" style="width: 300px;">
-      {% if news.img %}
-      <img src="{{news.img.url}}" style="width: 300px;">
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title">{{news.title}}</h5>
-        <p class="card-text">{{news.content|truncatewords:'6'}}</p>
-        <a href="{% url 'news_detail' news.slug %}" class="btn btn-info">Read more</a>
-      </div>
+<section class="news">
+    <div class="wrapper">
+        <div class="news-wrapper">
+            <h1>Xəbərlər</h1>
+            <div class="news-flex">
+                {% for news in news_list %}
+                {% if news.language == 'az' %}
+                <div class="news-cards">
+                    <div class="card-container">
+                        <div class="news-card-top">
+                            <p class="truncate-overflow">{{news.content|truncatewords:'10'}}</p>
+                        </div>
+                        <div class="news-card-bottom">
+                            <p>{{news.published}}</p>
+                            <a href="/" class=" mdi mdi-chevron-right "></a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
-  </div>
-  {% endif %}
-  {% endfor %}
+</section>
+
+
+<div class="row my-5">
+    {% for news in news_list %}
+    {% if news.language == 'az' %}
+    <div class="col-md-3 col-sm-12">
+        <div class="card" style="width: 300px;">
+            {% if news.img %}
+            <img src="{{news.img.url}}" style="width: 300px;">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{news.title}}</h5>
+                <p class="card-text">{{news.content|truncatewords:'6'}}</p>
+                <a href="{% url 'news_detail' news.slug %}" class="btn btn-info">Read more</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
 </div>
 
 {% for department in department_list %}
-{% if person.language == 'az' %}
+{% if department.language == 'az' %}
 {{department.name}} <br>
 {{department.address}}
 {% endif %}
@@ -38,7 +64,152 @@ home
 {% endif %}
 {% endfor %}
 
+{{about.title}}
+
+<section class="contacts">
+    <div class="wrapper">
+        <div class="contacts-wrapper">
+            <h1>Elektron müraciət forması</h1>
+            <div class="contacts-form-container">
+                <div class="contacts-form-container-holder">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="f-row">
+                            <div class="form-content">
+                                <p>Müraciətinin növünü seçin</p>
+                            </div>
+                            <div class="form-input">
+
+                                <ul>
+                                    <li><input type="radio" name="type" id="complaint" value="complaint"
+                                            checked="checked">
+                                        <div class="check"></div>
+                                        <label for="complaint" class="r-button">Şikayət</label>
+
+                                    </li>
+                                    <li>
+                                        <input type="radio" name="type" id="suggestion" value="suggestion">
+                                        <label for="suggestion" class="r-button">Təklif</label>
+                                        <div class="check">
+                                            <div class="inside"></div>
+                                        </div>
+                                    </li>
+                                    <li> <input type="radio" name="type" id="petition" value="petition">
+                                        <label for="petition" class="petition-label">Ərizə</label>
+                                        <div class="check">
+                                            <div class="inside"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="f-row">
+                            <div class="form-content">
+                                <label for="structure">Müraciətinizin aid olduğu struktur vahidini seçin</label>
+                            </div>
+                            <div class="form-input2">
+                                <i class="mdi mdi-chevron-down"></i>
+                                <select id="structure" name="structure" required>
+                                    <option value="" disabled selected>Struktur vahidi seçin
+                                    </option>
+                                    {% for department in department_list %}
+                                    {% if department.language == 'az' %}
+                                    <option value='{{department.name}}'>
+                                        {{department.name}}
+                                    </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select></div>
+                            <div class="form-content error-msj">
+                                <p>*Struktur vahidi mütləq seçilməlidir</p>
+                            </div>
+                        </div>
+
+                        <div class="f-row">
+                            <div class="form-content">
+                                <label for="subject">Müraciətinizin mövzusunu seçin</label>
+                            </div>
+                            <div class="form-input2">
+                                <i class="mdi mdi-chevron-down"></i>
+                                <select id="subject" name="subject" required>
+                                    <option value="" disabled selected>Siyahıdan mövzu seçin
+                                    </option>
+                                    <option value='“Dövlət-avtomat” İstehsalat İdarəsi'>“Dövlət-avtomat” İstehsalat
+                                        İdarəsi</option>
+                                    <option value='Xüsusi təyinatlı İstehlak idarəsi'>Xüsusi təyinatlı İstehlak idarəsi
+                                    </option>
+                                </select></div>
+                            <div class="form-content error-msj">
+                                <p>*Müraciət mövzusu mütləq seçilməlidir</p>
+                            </div>
+                        </div>
+
+                        <div class="f-row">
+                            <div class="form-content">
+                                <label for="fname" class="t-input-label">Adınız*</label><br>
+                                <input type="text" id="fname" name="fname" placeholder="Adınızı daxil edin">
+                            </div>
+                            <div class="form-input2">
+                                <label for="fsurname" class="t-input-label right-label">Soyadınız*</label><br>
+                                <input type="text" id="fsurname" name="fsurname" placeholder="Soyadınızı daxil edin">
+                            </div>
+                            <div class="form-content error-msj">
+                                <p>*Ad və Soyadınızı düzgün qeyd edin</p>
+                            </div>
+                        </div>
+
+                        <div class="f-row">
+                            <div class="form-content">
+                                <label for="femail" class="t-input-label">Elektron poçt ünvanınız*</label><br>
+                                <input type="email" id="femail" name="email" placeholder="E-poçt ünvanınızı daxil edin">
+                            </div>
+                            <div class="form-input2">
+                                <i class="mdi mdi-chevron-down number-icon"></i>
+
+                                <label for="fnumber" class="t-input-label right-label">Əlaqə nömrəniz*</label><br>
+                                <input type="text" placeholder="+994" class="country-code" disabled>
+                                <select name="prefix" id="operator" class="operator" required>
+                                    <option value="" disabled selected>050</option>
+                                    <option value="50">050</option>
+                                    <option value="51">051</option>
+                                    <option value="55">055</option>
+                                    <option value="99">099</option>
+                                    <option value="70">070</option>
+                                    <option value="77">077</option>
+                                </select>
+                                <input type="text" id="fnumber" name="fnumber" placeholder="Nömrənizi daxil edin">
+                            </div>
+                            <div class="form-content error-msj">
+                                <p>*E-poçt və əlaqə nömrənizi düzgün qeyd edin</p>
+                            </div>
+                        </div>
+
+                        <div class="f-row text-area">
+                            <div class="form-input">
+                                <label for="fmsj" class="t-input-label">Müraciətinizin tam mətni*</label><br>
+                                <textarea name="fmsj" id="fmsj" name="fmsj" cols="68" rows="10"
+                                    placeholder="Müraciətinizin məzmununu daxil edin"></textarea>
+                            </div>
+                            <div class="form-content error-msj">
+                                <p>*Müraciətinizi tam şəkildə daxil edin</p>
+                            </div>
+                        </div>
 
 
+                        <div class="form-submit">
+                            <div class="form-content form-submit1">
+                                <p>Davam etmək üçün təsdiqləyin</p>
+                            </div>
+                            <div class="form-submit2"> <button class="online-payment-btn">Göndər</button>
+                            </div>
+                            <div class="form-submit3"></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
